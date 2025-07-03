@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { Button } from "./ui/button";
+import { useNavigate } from "react-router-dom";
 
 const SignIn = () => {
     const {  login, register, } = useAuth();
@@ -9,6 +10,8 @@ const SignIn = () => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
+
+  const navigate = useNavigate()
   return (
     <div className="w-full  mt-10 p-6 bg-white flex items-center flex-col h-full justify-center  rounded-lg shadow-md" 
     style={{
@@ -99,6 +102,13 @@ const SignIn = () => {
               marginBottom: "8px",
             }}
             />
+           {isLogin && <p
+           onClick={() => {
+            navigate("/reset-password")
+          }}
+           className="underline cursor-pointer text-end" style={{
+            color: "#000",
+          }}>forgot your password?</p>}
           </div>
           <div className="flex flex-wrap justify-between items-center">
 

@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { Button } from './ui/button';
-import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { toast } from 'sonner';
-import { trpc } from '../utils/trpc';
+import { supabase } from '../utils/supabase';
 
 export function ResetPasswordForm() {
   const [email, setEmail] = useState('');
@@ -14,9 +13,9 @@ export function ResetPasswordForm() {
     setIsLoading(true);
     
     try {
-      const { error } = await trpc.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/update-password`,
-      });
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/update-password`,
+    });
 
       if (error) throw error;
       
@@ -29,20 +28,47 @@ export function ResetPasswordForm() {
   };
 
   return (
+    <div className="w-full  mt-10 p-6 bg-white flex items-center flex-col h-full justify-center  rounded-lg shadow-md" 
+    style={{
+      marginTop: "40px",
+    }}
+     >
+  <h1 style={{
+          color: "#000",
+        }} >Reset your link</h1>
     <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <Label htmlFor="email">Email</Label>
-        <Input
+      
+      <div className='w-[450px]'>
+        <Label style={{
+          color: "#374151",
+          fontSize: "16px",
+        }} htmlFor="email">Email *</Label>
+        <input
           id="email"
           type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm p-2 border"
+          style={{
+            borderColor: "#d1d5db",
+            backgroundColor: "#fff",
+            color: "#000",
+              borderRadius: "6px",
+              padding: "8px",
+              marginTop: "4px",
+              marginBottom: "8px",
+            }}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            />
       </div>
-      <Button type="submit" disabled={isLoading}>
+      <Button type="submit" disabled={isLoading}  className="w-fit flex items-center text-center" style={{
+            color: "#000",
+            backgroundColor: "#fff",
+          }}>
         {isLoading ? 'Sending...' : 'Send Reset Link'}
       </Button>
+      
     </form>
+            </div>
   );
 }

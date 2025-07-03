@@ -19,7 +19,7 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType>(null!);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User>(JSON.parse(localStorage.getItem('user') || '') as User || null);
+  const [user, setUser] = useState<User>(JSON.parse(localStorage.getItem('user')) as User || null);
   const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
