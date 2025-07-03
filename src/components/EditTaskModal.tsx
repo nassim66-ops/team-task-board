@@ -23,19 +23,40 @@ interface EditTaskModalProps {
 const EditTaskModal = (props: EditTaskModalProps) => {
     const {editingTask, setEditingTask, handleEditSubmit,formData , setFormData, users, statuses, handleDelete} = props;
   return (
-   <Dialog open={!!editingTask} onOpenChange={(open) => !open && setEditingTask(null)}>
-        <DialogContent className="sm:max-w-[600px]">
+   <Dialog open={!!editingTask}   onOpenChange={(open) => !open && setEditingTask(null)}>
+        <DialogContent className="sm:max-w-[600px] w-1/2 [&>:last-child]:hidden "  style={{
+          margin: "5px",
+          padding: "15px",
+          borderWidth: "1px",
+          borderColor: "#d1d5db",
+        }}>
           <DialogHeader>
-            <DialogTitle>Edit Task</DialogTitle>
+            <DialogTitle style={{
+              color: '#000'
+            }}>Edit Task "{editingTask?.title}" </DialogTitle>
             <DialogDescription>
               {editingTask?.created_at && `Created on ${new Date(editingTask.created_at).toLocaleDateString()}`}
             </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleEditSubmit} className="space-y-4">
             <div>
-              <Label htmlFor="title">Title *</Label>
+              <Label htmlFor="title" style={{
+                color: "#000",
+                fontSize: "20px",
+                fontWeight: "600",
+                marginBottom: "8px",
+                marginTop: "12px",
+              }}>Title *</Label>
               <Input
                 id="title"
+                style={{
+              borderColor: "#d1d5db",
+              backgroundColor: "#fff",
+              color: "#000",
+              borderRadius: "6px",
+              paddingTop: "8px",
+              paddingBottom: "8px",
+            }}
                 value={formData.title ?? ''}
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
                 required
@@ -43,23 +64,49 @@ const EditTaskModal = (props: EditTaskModalProps) => {
             </div>
 
             <div>
-              <Label htmlFor="description">Description</Label>
+              <Label htmlFor="description" style={{
+                color: "#000",
+                fontSize: "20px",
+                fontWeight: "600",
+                marginBottom: "8px",
+                marginTop: "12px",
+              }}>Description</Label>
               <Textarea
                 id="description"
+                style={{
+              borderColor: "#d1d5db",
+              backgroundColor: "#fff",
+              color: "#000",
+              borderRadius: "6px",
+              paddingTop: "8px",
+              paddingBottom: "8px",
+            }}
                 value={formData.description ?? ''}
                 onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                 rows={3}
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="flex flex-wrap gap-4" style={{
+              gap: "16px",
+              marginTop: "8px"
+            }}>
               <div>
-                <Label htmlFor="status">Status *</Label>
+                <Label htmlFor="status"style={{
+                color: "#000",
+                fontSize: "20px",
+                fontWeight: "600",
+                marginBottom: "8px",
+                marginTop: "12px",
+              }}>Status *</Label>
                 <Select
                   value={formData.status ?? 'To Do'}
                   onValueChange={(value) => setFormData({ ...formData, status: value as Status })}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger style={{
+              marginRight: "5px",
+              color: '#000'
+            }}>
                     <SelectValue placeholder="Select status" />
                   </SelectTrigger>
                   <SelectContent>
@@ -73,12 +120,21 @@ const EditTaskModal = (props: EditTaskModalProps) => {
               </div>
 
               <div>
-                <Label htmlFor="assignee">Assignee</Label>
+                <Label htmlFor="assignee"style={{
+                color: "#000",
+                fontSize: "20px",
+                fontWeight: "600",
+                marginBottom: "8px",
+                marginTop: "12px",
+              }}>Assignee</Label>
                 <Select
                   value={formData.assignee_id ?? ''}
                   onValueChange={(value) => setFormData({ ...formData, assignee_id: value })}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger style={{
+              marginRight: "5px",
+              color: '#000'
+            }}>
                     <SelectValue placeholder="Unassigned" />
                   </SelectTrigger>
                   <SelectContent>
@@ -99,7 +155,10 @@ const EditTaskModal = (props: EditTaskModalProps) => {
               </div>
             </div>
 
-            <div className="flex justify-between">
+            <div className="flex flex-wrap justify-between" style={{
+              gap: "12px",
+              marginTop: "18px",
+            }}>
               <Button
                 type="button"
                 variant="destructive"
@@ -113,10 +172,12 @@ const EditTaskModal = (props: EditTaskModalProps) => {
               >
                 Delete Task
               </Button>
-              <div className="space-x-2">
+              <div className="space-x-2 flex flex-wrap" style={{
+              gap: "12px",
+            }}>
                 <Button
                   type="button"
-                  variant="outline"
+                  variant="secondary"
                   onClick={() => setEditingTask(null)}
                 >
                   Cancel

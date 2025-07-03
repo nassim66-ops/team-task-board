@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { trpc } from '../utils/trpc';
+ import { toast } from 'sonner';
 
 type User = {
   id: string;
@@ -41,6 +42,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUser(user);
     } catch (error) {
       console.error("Registration failed:", error);
+      toast.error("Failed to register!")
       throw error;
     }
   };
@@ -50,6 +52,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const user = await loginMutation.mutateAsync({ email, password });
       setUser(user);
     } catch (error) {
+      toast.error("Failed to login!")
       console.error("Login failed:", error);
       throw error;
     }
@@ -61,6 +64,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUser(null);
     } catch (error) {
       console.error("Logout failed:", error);
+      toast.error("Failed to logout!")
       throw error;
     }
   };

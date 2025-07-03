@@ -56,7 +56,6 @@ export const KanbanBoard = () => {
         }} />
             <Input
               placeholder="Search tasks..."
-              // className="pl-10"
                style={{
           paddingLeft: "40px",
           height: "36px",

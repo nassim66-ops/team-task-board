@@ -4,6 +4,7 @@ import { Button } from './components/ui/button';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import SignIn from './components/SignIn';
+import {  Toaster } from 'sonner';
 
 function AppContent() {
   const { user, loading, logout } = useAuth();
@@ -37,6 +38,7 @@ function AppContent() {
 export default function App() {
   return (
     <AuthProvider>
+      <Toaster position="top-right" />
       <AppContent />
     </AuthProvider>
   );
