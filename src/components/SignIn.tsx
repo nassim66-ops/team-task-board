@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { Button } from "./ui/button";
-import { toast } from "sonner";
 
 const SignIn = () => {
     const {  login, register, } = useAuth();

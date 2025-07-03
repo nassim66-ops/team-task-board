@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { trpc } from '../utils/trpc';
  import { toast } from 'sonner';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 type User = {
   id: string;
@@ -18,8 +19,14 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType>(null!);
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User>(null);
+  const [user, setUser] = useState<User>(JSON.parse(localStorage.getItem('user') || '') as User || null);
   const [loading, setLoading] = useState(true);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+   const from = location.state?.from?.pathname || '/';
+
 
   // Use tRPC mutations properly
   const registerMutation = trpc.auth.register.useMutation();
@@ -40,6 +47,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const user = await registerMutation.mutateAsync({ email, name, password });
       setUser(user);
+      localStorage.setItem('user', JSON.stringify(user));
+      navigate('/login', { replace: true });
+
     } catch (error) {
       console.error("Registration failed:", error);
       toast.error("Failed to register!")
@@ -51,6 +61,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       const user = await loginMutation.mutateAsync({ email, password });
       setUser(user);
+      localStorage.setItem('user', JSON.stringify(user));
+      navigate(from, { replace: true });
     } catch (error) {
       toast.error("Failed to login!")
       console.error("Login failed:", error);
@@ -62,6 +74,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     try {
       await logoutMutation.mutateAsync();
       setUser(null);
+      localStorage.removeItem('user');
     } catch (error) {
       console.error("Logout failed:", error);
       toast.error("Failed to logout!")
